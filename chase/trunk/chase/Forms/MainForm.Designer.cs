@@ -107,8 +107,8 @@
           this.radioButtonTcpIp = new System.Windows.Forms.RadioButton();
           this.checkBoxTraceRoute = new System.Windows.Forms.CheckBox();
           this.panel2 = new System.Windows.Forms.Panel();
-          this.MainMap = new Demo.WindowsForms.Map();
           this.panel4 = new System.Windows.Forms.Panel();
+          this.MainMap = new Demo.WindowsForms.Map();
           this.groupBox3.SuspendLayout();
           ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
           this.groupBox5.SuspendLayout();
@@ -271,7 +271,7 @@
           this.trackBar1.Minimum = 1;
           this.trackBar1.Name = "trackBar1";
           this.trackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
-          this.trackBar1.Size = new System.Drawing.Size(45, 597);
+          this.trackBar1.Size = new System.Drawing.Size(45, 1);
           this.trackBar1.TabIndex = 29;
           this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
           this.trackBar1.Value = 12;
@@ -711,14 +711,13 @@
           this.xPanderPanelMain.CustomColors.FlatCaptionGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
           this.xPanderPanelMain.CustomColors.FlatCaptionGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
           this.xPanderPanelMain.CustomColors.InnerBorderColor = System.Drawing.SystemColors.Window;
-          this.xPanderPanelMain.Expand = true;
           this.xPanderPanelMain.ForeColor = System.Drawing.SystemColors.ControlText;
           this.xPanderPanelMain.Image = null;
           this.xPanderPanelMain.IsClosable = false;
           this.xPanderPanelMain.Margin = new System.Windows.Forms.Padding(2);
           this.xPanderPanelMain.Name = "xPanderPanelMain";
           this.xPanderPanelMain.PanelStyle = BSE.Windows.Forms.PanelStyle.Office2007;
-          this.xPanderPanelMain.Size = new System.Drawing.Size(228, 628);
+          this.xPanderPanelMain.Size = new System.Drawing.Size(228, 25);
           this.xPanderPanelMain.TabIndex = 0;
           this.xPanderPanelMain.Text = "map";
           this.xPanderPanelMain.ToolTipTextCloseIcon = null;
@@ -739,7 +738,7 @@
           this.tableLayoutPanel4.Name = "tableLayoutPanel4";
           this.tableLayoutPanel4.RowCount = 1;
           this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-          this.tableLayoutPanel4.Size = new System.Drawing.Size(226, 603);
+          this.tableLayoutPanel4.Size = new System.Drawing.Size(226, 0);
           this.tableLayoutPanel4.TabIndex = 38;
           // 
           // tableLayoutPanel5
@@ -760,7 +759,7 @@
           this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
           this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
           this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 6F));
-          this.tableLayoutPanel5.Size = new System.Drawing.Size(171, 599);
+          this.tableLayoutPanel5.Size = new System.Drawing.Size(171, 1);
           this.tableLayoutPanel5.TabIndex = 30;
           // 
           // xPanderPanelCache
@@ -1245,6 +1244,18 @@
           this.panel2.Size = new System.Drawing.Size(660, 732);
           this.panel2.TabIndex = 41;
           // 
+          // panel4
+          // 
+          this.panel4.Controls.Add(this.panel2);
+          this.panel4.Controls.Add(this.splitter1);
+          this.panel4.Controls.Add(this.panelMenu);
+          this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+          this.panel4.Location = new System.Drawing.Point(0, 0);
+          this.panel4.Margin = new System.Windows.Forms.Padding(2);
+          this.panel4.Name = "panel4";
+          this.panel4.Size = new System.Drawing.Size(890, 732);
+          this.panel4.TabIndex = 44;
+          // 
           // MainMap
           // 
           this.MainMap.Bearing = 0F;
@@ -1266,18 +1277,6 @@
           this.MainMap.Size = new System.Drawing.Size(660, 732);
           this.MainMap.TabIndex = 0;
           this.MainMap.Zoom = 0D;
-          // 
-          // panel4
-          // 
-          this.panel4.Controls.Add(this.panel2);
-          this.panel4.Controls.Add(this.splitter1);
-          this.panel4.Controls.Add(this.panelMenu);
-          this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-          this.panel4.Location = new System.Drawing.Point(0, 0);
-          this.panel4.Margin = new System.Windows.Forms.Padding(2);
-          this.panel4.Name = "panel4";
-          this.panel4.Size = new System.Drawing.Size(890, 732);
-          this.panel4.TabIndex = 44;
           // 
           // MainForm
           // 
