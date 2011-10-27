@@ -72,7 +72,7 @@ namespace Demo.WindowsForms
                 }
 
                 // config map 
-                MainMap.MapProvider = GMapProviders.OpenStreetMap;
+                MainMap.MapProvider = GMapProviders.GoogleTerrainMap;
                 MainMap.Position = new PointLatLng(-37.7881, 175.2597);
                 MainMap.MinZoom = 1;
                 MainMap.MaxZoom = 17;
@@ -117,31 +117,12 @@ namespace Demo.WindowsForms
                 trackBar1.Maximum = MainMap.MaxZoom;
 
 #if DEBUG
-                checkBoxDebug.Checked = true;
+                checkBoxDebug.Checked = false;
 #endif
 
                 ToolStripManager.Renderer = new BSE.Windows.Forms.Office2007Renderer();
 
-                // transport demo
-                transport.DoWork += new DoWorkEventHandler(transport_DoWork);
-                transport.ProgressChanged += new ProgressChangedEventHandler(transport_ProgressChanged);
-                transport.WorkerSupportsCancellation = true;
-                transport.WorkerReportsProgress = true;
-
-                // Connections
-                connectionsWorker.DoWork += new DoWorkEventHandler(connectionsWorker_DoWork);
-                connectionsWorker.ProgressChanged += new ProgressChangedEventHandler(connectionsWorker_ProgressChanged);
-                connectionsWorker.WorkerSupportsCancellation = true;
-                connectionsWorker.WorkerReportsProgress = true;
-
-                ipInfoSearchWorker.DoWork += new DoWorkEventHandler(ipInfoSearchWorker_DoWork);
-                ipInfoSearchWorker.WorkerSupportsCancellation = true;
-
-                iptracerWorker.DoWork += new DoWorkEventHandler(iptracerWorker_DoWork);
-                iptracerWorker.WorkerSupportsCancellation = true;
-
-                GridConnections.AutoGenerateColumns = false;
-
+               
                 IpCache.CacheLocation = MainMap.CacheLocation;
 
                 // perf
@@ -760,231 +741,9 @@ namespace Demo.WindowsForms
 #endif
         }
 
-        void connectionsWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            try
-            {
-                // stops immediate marker/route/polygon invalidations;
-                // call Refresh to perform single refresh and reset invalidation state
-                MainMap.HoldInvalidation = true;
+       
 
-                SelectedCountries.Clear();
-                Int32 SelectedCountriesCount = GridConnections.Rows.GetRowCount(DataGridViewElementStates.Selected);
-                if (SelectedCountriesCount > 0)
-                {
-                    for (int i = 0; i < SelectedCountriesCount; i++)
-                    {
-                        string country = GridConnections.SelectedRows[i].Cells[0].Value as string;
-                        SelectedCountries.Add(country);
-                    }
-                }
-
-                ComparerIpStatus.SortOnlyCountryName = !(SelectedCountriesCount == 0);
-
-                lock (TcpState)
-                {
-                    bool snap = true;
-                    foreach (var tcp in TcpState)
-                    {
-                        GMapMarker marker;
-
-                        if (!tcpConnections.TryGetValue(tcp.Key, out marker))
-                        {
-                            if (!string.IsNullOrEmpty(tcp.Value.Ip))
-                            {
-                                marker = new GMapMarkerGoogleGreen(new PointLatLng(tcp.Value.Latitude, tcp.Value.Longitude));
-                                marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                                marker.Tag = tcp.Value.CountryName;
-
-                                tcpConnections[tcp.Key] = marker;
-                                {
-                                    if (!(SelectedCountriesCount > 0 && !SelectedCountries.Contains(tcp.Value.CountryName)))
-                                    {
-                                        objects.Markers.Add(marker);
-
-                                        UpdateMarkerTcpIpToolTip(marker, tcp.Value, "(" + objects.Markers.Count + ") ");
-
-                                        if (snap)
-                                        {
-                                            if (checkBoxTcpIpSnap.Checked && !MainMap.IsDragging)
-                                            {
-                                                MainMap.Position = marker.Position;
-                                            }
-                                            snap = false;
-
-                                            if (lastTcpmarker != null)
-                                            {
-                                                marker.ToolTipMode = MarkerTooltipMode.Always;
-                                                lastTcpmarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                                            }
-
-                                            lastTcpmarker = marker;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if ((DateTime.Now - tcp.Value.StatusTime > TimeSpan.FromSeconds(8)) || (SelectedCountriesCount > 0 && !SelectedCountries.Contains(tcp.Value.CountryName)))
-                            {
-                                objects.Markers.Remove(marker);
-
-                                GMapRoute route;
-                                if (tcpRoutes.TryGetValue(tcp.Key, out route))
-                                {
-                                    routes.Routes.Remove(route);
-                                }
-
-                                lock (TcpStateNeedLocationInfo)
-                                {
-                                    bool r = TcpStateNeedLocationInfo.Remove(tcp.Key);
-                                    if (r)
-                                    {
-                                        Debug.WriteLine("TcpStateNeedLocationInfo: removed " + tcp.Key + " " + r);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                marker.Position = new PointLatLng(tcp.Value.Latitude, tcp.Value.Longitude);
-                                if (!objects.Markers.Contains(marker))
-                                {
-                                    objects.Markers.Add(marker);
-                                }
-                                UpdateMarkerTcpIpToolTip(marker, tcp.Value, string.Empty);
-
-                                if (TryTraceConnection)
-                                {
-                                    // routes
-                                    GMapRoute route;
-                                    if (!this.tcpRoutes.TryGetValue(tcp.Key, out route))
-                                    {
-                                        lock (TraceRoutes)
-                                        {
-                                            List<PingReply> tr;
-                                            if (TraceRoutes.TryGetValue(tcp.Key, out tr))
-                                            {
-                                                if (tr != null)
-                                                {
-                                                    List<PointLatLng> points = new List<PointLatLng>();
-                                                    foreach (var add in tr)
-                                                    {
-                                                        IpInfo info;
-
-                                                        lock (TcpTracePoints)
-                                                        {
-                                                            if (TcpTracePoints.TryGetValue(add.Address.ToString(), out info))
-                                                            {
-                                                                if (!string.IsNullOrEmpty(info.Ip))
-                                                                {
-                                                                    points.Add(new PointLatLng(info.Latitude, info.Longitude));
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-
-                                                    if (points.Count > 0)
-                                                    {
-                                                        route = new GMapRoute(points, tcp.Value.CountryName);
-
-                                                        route.Stroke = new Pen(GetRandomColor());
-                                                        route.Stroke.Width = 4;
-                                                        route.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDot;
-
-                                                        route.Stroke.StartCap = LineCap.NoAnchor;
-                                                        route.Stroke.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
-                                                        route.Stroke.LineJoin = LineJoin.Round;
-
-                                                        routes.Routes.Add(route);
-                                                        tcpRoutes[tcp.Key] = route;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (!routes.Routes.Contains(route))
-                                        {
-                                            routes.Routes.Add(route);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    // update grid data
-                    if (panelMenu.Expand && xPanderPanelLive.Expand)
-                    {
-                        bool empty = CountryStatusView.Count == 0;
-
-                        if (!ComparerIpStatus.SortOnlyCountryName)
-                        {
-                            CountryStatusView.Clear();
-                        }
-
-                        foreach (var c in CountryStatus)
-                        {
-                            IpStatus s = new IpStatus();
-                            {
-                                s.CountryName = c.Key;
-                                s.ConnectionsCount = c.Value;
-                            }
-
-                            if (ComparerIpStatus.SortOnlyCountryName)
-                            {
-                                int idx = CountryStatusView.FindIndex(p => p.CountryName == c.Key);
-                                if (idx >= 0)
-                                {
-                                    CountryStatusView[idx] = s;
-                                }
-                            }
-                            else
-                            {
-                                CountryStatusView.Add(s);
-                            }
-                        }
-
-                        CountryStatusView.Sort(ComparerIpStatus);
-
-                        GridConnections.RowCount = CountryStatusView.Count;
-                        GridConnections.Refresh();
-
-                        if (empty)
-                        {
-                            GridConnections.ClearSelection();
-                        }
-                    }
-                }
-
-                MainMap.Refresh();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
-            }
-        }
-
-        void GridConnections_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
-        {
-            if (e.RowIndex >= CountryStatusView.Count)
-                return;
-
-            IpStatus val = CountryStatusView[e.RowIndex];
-
-            switch (GridConnections.Columns[e.ColumnIndex].Name)
-            {
-                case "CountryName":
-                    e.Value = val.CountryName;
-                    break;
-
-                case "ConnectionsCount":
-                    e.Value = val.ConnectionsCount;
-                    break;
-            }
-        }
+        
 
         Color GetRandomColor()
         {
@@ -1288,11 +1047,6 @@ namespace Demo.WindowsForms
 
             trackBar1.Minimum = MainMap.MinZoom;
             trackBar1.Maximum = MainMap.MaxZoom;
-
-            if (radioButtonTransport.Checked)
-            {
-                MainMap.ZoomAndCenterMarkers("objects");
-            }
         }
 
         void MainMap_MouseUp(object sender, MouseEventArgs e)
@@ -1918,74 +1672,7 @@ namespace Demo.WindowsForms
             }
         }
 
-        // engage some live demo
-        private void RealTimeChanged(object sender, EventArgs e)
-        {
-            objects.Markers.Clear();
-            polygons.Polygons.Clear();
-            routes.Routes.Clear();
-
-            // start performance test
-            if (radioButtonPerf.Checked)
-            {
-                timerPerf.Interval = 44;
-                timerPerf.Start();
-            }
-            else
-            {
-                // stop performance test
-                timerPerf.Stop();
-            }
-
-            // start realtime transport tracking demo
-            if (radioButtonTransport.Checked)
-            {
-                if (!transport.IsBusy)
-                {
-                    firstLoadTrasport = true;
-                    transport.RunWorkerAsync();
-                }
-            }
-            else
-            {
-                if (transport.IsBusy)
-                {
-                    transport.CancelAsync();
-                }
-            }
-
-            // start live tcp/ip connections demo
-            if (radioButtonTcpIp.Checked)
-            {
-                GridConnections.Visible = true;
-                checkBoxTcpIpSnap.Visible = true;
-                checkBoxTraceRoute.Visible = true;
-                GridConnections.Refresh();
-
-                if (!connectionsWorker.IsBusy)
-                {
-                    //if(MainMap.Provider != MapType.GoogleMap)
-                    //{
-                    //   MainMap.MapType = MapType.GoogleMap;
-                    //}
-                    MainMap.Zoom = 5;
-
-                    connectionsWorker.RunWorkerAsync();
-                }
-            }
-            else
-            {
-                CountryStatusView.Clear();
-                GridConnections.Visible = false;
-                checkBoxTcpIpSnap.Visible = false;
-                checkBoxTraceRoute.Visible = false;
-
-                if (connectionsWorker.IsBusy)
-                {
-                    connectionsWorker.CancelAsync();
-                }
-            }
-        }
+       
 
         // export mobile gps log to gpx file
         private void buttonExportToGpx_Click(object sender, EventArgs e)
@@ -2093,33 +1780,20 @@ namespace Demo.WindowsForms
             }
         }
 
-        // enable/disable host tracing
-        private void checkBoxTraceRoute_CheckedChanged(object sender, EventArgs e)
-        {
-            TryTraceConnection = checkBoxTraceRoute.Checked;
-            if (!TryTraceConnection)
-            {
-                if (iptracerWorker.IsBusy)
-                {
-                    iptracerWorker.CancelAsync();
-                }
-                routes.Routes.Clear();
-            }
-        }
-
-        private void GridConnections_DoubleClick(object sender, EventArgs e)
-        {
-            GridConnections.ClearSelection();
-        }
-
         #endregion
 
         private void button17_Click(object sender, EventArgs e)
         {
-            var kml = new KmlProvider("7af6e4470ea1193349c602b4f8c78f5eb6545954.kml");
-            routes.Routes.Add(kml.CreateRoute());
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Filter = ".kml|*.kml";
 
-            kml.GetMarkers().ForEach(m => objects.Markers.Add(m));
+            if (openFile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var kml = new KmlProvider(openFile.FileName);
+                routes.Routes.Add(kml.CreateRoute());
+
+                kml.GetMarkers().ForEach(m => objects.Markers.Add(m));
+            }
         }
     }
 }

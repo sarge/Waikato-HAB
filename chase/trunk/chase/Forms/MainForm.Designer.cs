@@ -28,7 +28,6 @@
       /// </summary>
       private void InitializeComponent()
       {
-          System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
           this.label7 = new System.Windows.Forms.Label();
           this.comboBoxMapType = new System.Windows.Forms.ComboBox();
           this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -69,7 +68,6 @@
           this.buttonSetStart = new System.Windows.Forms.Button();
           this.button6 = new System.Windows.Forms.Button();
           this.groupBox8 = new System.Windows.Forms.GroupBox();
-          this.button17 = new System.Windows.Forms.Button();
           this.button7 = new System.Windows.Forms.Button();
           this.checkBoxPlacemarkInfo = new System.Windows.Forms.CheckBox();
           this.panelMenu = new BSE.Windows.Forms.Panel();
@@ -97,17 +95,9 @@
           this.label5 = new System.Windows.Forms.Label();
           this.xPanderPanelLive = new BSE.Windows.Forms.XPanderPanel();
           this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-          this.radioButtonNone = new System.Windows.Forms.RadioButton();
-          this.checkBoxTcpIpSnap = new System.Windows.Forms.CheckBox();
-          this.GridConnections = new System.Windows.Forms.DataGridView();
-          this.CountryName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-          this.ConnectionsCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-          this.radioButtonTransport = new System.Windows.Forms.RadioButton();
-          this.radioButtonPerf = new System.Windows.Forms.RadioButton();
-          this.radioButtonTcpIp = new System.Windows.Forms.RadioButton();
-          this.checkBoxTraceRoute = new System.Windows.Forms.CheckBox();
           this.panel2 = new System.Windows.Forms.Panel();
           this.panel4 = new System.Windows.Forms.Panel();
+          this.buttonLoadKML = new System.Windows.Forms.Button();
           this.MainMap = new Demo.WindowsForms.Map();
           this.groupBox3.SuspendLayout();
           ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -125,7 +115,6 @@
           this.tableLayoutPanel2.SuspendLayout();
           this.xPanderPanelLive.SuspendLayout();
           this.tableLayoutPanel3.SuspendLayout();
-          ((System.ComponentModel.ISupportInitialize)(this.GridConnections)).BeginInit();
           this.panel2.SuspendLayout();
           this.panel4.SuspendLayout();
           this.SuspendLayout();
@@ -571,7 +560,6 @@
           // groupBox8
           // 
           this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-          this.groupBox8.Controls.Add(this.button17);
           this.groupBox8.Controls.Add(this.button7);
           this.groupBox8.Controls.Add(this.checkBoxPlacemarkInfo);
           this.groupBox8.Controls.Add(this.button5);
@@ -582,16 +570,6 @@
           this.groupBox8.TabIndex = 37;
           this.groupBox8.TabStop = false;
           this.groupBox8.Text = "markers";
-          // 
-          // button17
-          // 
-          this.button17.Location = new System.Drawing.Point(6, 75);
-          this.button17.Name = "button17";
-          this.button17.Size = new System.Drawing.Size(82, 23);
-          this.button17.TabIndex = 16;
-          this.button17.Text = "button17";
-          this.button17.UseVisualStyleBackColor = true;
-          this.button17.Click += new System.EventHandler(this.button17_Click);
           // 
           // button7
           // 
@@ -1067,6 +1045,7 @@
           this.xPanderPanelLive.CustomColors.FlatCaptionGradientBegin = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
           this.xPanderPanelLive.CustomColors.FlatCaptionGradientEnd = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
           this.xPanderPanelLive.CustomColors.InnerBorderColor = System.Drawing.SystemColors.Window;
+          this.xPanderPanelLive.Expand = true;
           this.xPanderPanelLive.ForeColor = System.Drawing.SystemColors.ControlText;
           this.xPanderPanelLive.Image = null;
           this.xPanderPanelLive.IsClosable = false;
@@ -1074,9 +1053,9 @@
           this.xPanderPanelLive.Name = "xPanderPanelLive";
           this.xPanderPanelLive.Padding = new System.Windows.Forms.Padding(0, 0, 0, 24);
           this.xPanderPanelLive.PanelStyle = BSE.Windows.Forms.PanelStyle.Office2007;
-          this.xPanderPanelLive.Size = new System.Drawing.Size(228, 25);
+          this.xPanderPanelLive.Size = new System.Drawing.Size(228, 628);
           this.xPanderPanelLive.TabIndex = 2;
-          this.xPanderPanelLive.Text = "live";
+          this.xPanderPanelLive.Text = "chase mode";
           this.xPanderPanelLive.ToolTipTextCloseIcon = null;
           this.xPanderPanelLive.ToolTipTextExpandIconPanelCollapsed = null;
           this.xPanderPanelLive.ToolTipTextExpandIconPanelExpanded = null;
@@ -1088,151 +1067,23 @@
           this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
           this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.06977F));
           this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
-          this.tableLayoutPanel3.Controls.Add(this.radioButtonNone, 1, 1);
-          this.tableLayoutPanel3.Controls.Add(this.checkBoxTcpIpSnap, 1, 6);
-          this.tableLayoutPanel3.Controls.Add(this.GridConnections, 1, 5);
-          this.tableLayoutPanel3.Controls.Add(this.radioButtonTransport, 1, 2);
-          this.tableLayoutPanel3.Controls.Add(this.radioButtonPerf, 1, 3);
-          this.tableLayoutPanel3.Controls.Add(this.radioButtonTcpIp, 1, 4);
-          this.tableLayoutPanel3.Controls.Add(this.checkBoxTraceRoute, 1, 7);
+          this.tableLayoutPanel3.Controls.Add(this.buttonLoadKML, 1, 5);
           this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
           this.tableLayoutPanel3.Location = new System.Drawing.Point(1, 25);
           this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(2);
           this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-          this.tableLayoutPanel3.RowCount = 8;
+          this.tableLayoutPanel3.RowCount = 9;
           this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
           this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
           this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
           this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
           this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+          this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
           this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
           this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
           this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-          this.tableLayoutPanel3.Size = new System.Drawing.Size(226, 0);
+          this.tableLayoutPanel3.Size = new System.Drawing.Size(226, 579);
           this.tableLayoutPanel3.TabIndex = 6;
-          // 
-          // radioButtonNone
-          // 
-          this.radioButtonNone.AutoSize = true;
-          this.radioButtonNone.Checked = true;
-          this.radioButtonNone.Location = new System.Drawing.Point(18, 19);
-          this.radioButtonNone.Name = "radioButtonNone";
-          this.radioButtonNone.Size = new System.Drawing.Size(51, 17);
-          this.radioButtonNone.TabIndex = 2;
-          this.radioButtonNone.TabStop = true;
-          this.radioButtonNone.Text = "None";
-          this.radioButtonNone.UseVisualStyleBackColor = true;
-          this.radioButtonNone.CheckedChanged += new System.EventHandler(this.RealTimeChanged);
-          // 
-          // checkBoxTcpIpSnap
-          // 
-          this.checkBoxTcpIpSnap.AutoSize = true;
-          this.checkBoxTcpIpSnap.Checked = true;
-          this.checkBoxTcpIpSnap.CheckState = System.Windows.Forms.CheckState.Checked;
-          this.checkBoxTcpIpSnap.Location = new System.Drawing.Point(17, -39);
-          this.checkBoxTcpIpSnap.Margin = new System.Windows.Forms.Padding(2);
-          this.checkBoxTcpIpSnap.Name = "checkBoxTcpIpSnap";
-          this.checkBoxTcpIpSnap.Size = new System.Drawing.Size(184, 17);
-          this.checkBoxTcpIpSnap.TabIndex = 4;
-          this.checkBoxTcpIpSnap.Text = "Snap position on new connection";
-          this.checkBoxTcpIpSnap.UseVisualStyleBackColor = true;
-          this.checkBoxTcpIpSnap.Visible = false;
-          // 
-          // GridConnections
-          // 
-          this.GridConnections.AllowUserToAddRows = false;
-          this.GridConnections.AllowUserToDeleteRows = false;
-          this.GridConnections.AllowUserToResizeRows = false;
-          this.GridConnections.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-          this.GridConnections.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.CountryName,
-            this.ConnectionsCount});
-          dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-          dataGridViewCellStyle1.BackColor = System.Drawing.Color.AliceBlue;
-          dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-          dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-          dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightSkyBlue;
-          dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-          dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-          this.GridConnections.DefaultCellStyle = dataGridViewCellStyle1;
-          this.GridConnections.Dock = System.Windows.Forms.DockStyle.Fill;
-          this.GridConnections.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-          this.GridConnections.Location = new System.Drawing.Point(17, 110);
-          this.GridConnections.Margin = new System.Windows.Forms.Padding(2);
-          this.GridConnections.Name = "GridConnections";
-          this.GridConnections.ReadOnly = true;
-          this.GridConnections.RowHeadersVisible = false;
-          this.GridConnections.RowTemplate.Height = 24;
-          this.GridConnections.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-          this.GridConnections.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-          this.GridConnections.Size = new System.Drawing.Size(192, 1);
-          this.GridConnections.TabIndex = 5;
-          this.GridConnections.VirtualMode = true;
-          this.GridConnections.Visible = false;
-          this.GridConnections.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.GridConnections_CellValueNeeded);
-          this.GridConnections.DoubleClick += new System.EventHandler(this.GridConnections_DoubleClick);
-          // 
-          // CountryName
-          // 
-          this.CountryName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-          this.CountryName.DataPropertyName = "CountryName";
-          this.CountryName.FillWeight = 200F;
-          this.CountryName.HeaderText = "Country";
-          this.CountryName.Name = "CountryName";
-          this.CountryName.ReadOnly = true;
-          // 
-          // ConnectionsCount
-          // 
-          this.ConnectionsCount.DataPropertyName = "ConnectionsCount";
-          this.ConnectionsCount.HeaderText = "Connections";
-          this.ConnectionsCount.Name = "ConnectionsCount";
-          this.ConnectionsCount.ReadOnly = true;
-          // 
-          // radioButtonTransport
-          // 
-          this.radioButtonTransport.AutoSize = true;
-          this.radioButtonTransport.Location = new System.Drawing.Point(18, 42);
-          this.radioButtonTransport.Name = "radioButtonTransport";
-          this.radioButtonTransport.Size = new System.Drawing.Size(108, 17);
-          this.radioButtonTransport.TabIndex = 0;
-          this.radioButtonTransport.Text = "FlightRadar demo";
-          this.radioButtonTransport.UseVisualStyleBackColor = true;
-          this.radioButtonTransport.CheckedChanged += new System.EventHandler(this.RealTimeChanged);
-          // 
-          // radioButtonPerf
-          // 
-          this.radioButtonPerf.AutoSize = true;
-          this.radioButtonPerf.Location = new System.Drawing.Point(18, 65);
-          this.radioButtonPerf.Name = "radioButtonPerf";
-          this.radioButtonPerf.Size = new System.Drawing.Size(105, 17);
-          this.radioButtonPerf.TabIndex = 1;
-          this.radioButtonPerf.Text = "Performance test";
-          this.radioButtonPerf.UseVisualStyleBackColor = true;
-          this.radioButtonPerf.CheckedChanged += new System.EventHandler(this.RealTimeChanged);
-          // 
-          // radioButtonTcpIp
-          // 
-          this.radioButtonTcpIp.AutoSize = true;
-          this.radioButtonTcpIp.Location = new System.Drawing.Point(18, 88);
-          this.radioButtonTcpIp.Name = "radioButtonTcpIp";
-          this.radioButtonTcpIp.Size = new System.Drawing.Size(122, 17);
-          this.radioButtonTcpIp.TabIndex = 3;
-          this.radioButtonTcpIp.Text = "TCP/IP connections";
-          this.radioButtonTcpIp.UseVisualStyleBackColor = true;
-          this.radioButtonTcpIp.CheckedChanged += new System.EventHandler(this.RealTimeChanged);
-          // 
-          // checkBoxTraceRoute
-          // 
-          this.checkBoxTraceRoute.AutoSize = true;
-          this.checkBoxTraceRoute.Location = new System.Drawing.Point(17, -18);
-          this.checkBoxTraceRoute.Margin = new System.Windows.Forms.Padding(2);
-          this.checkBoxTraceRoute.Name = "checkBoxTraceRoute";
-          this.checkBoxTraceRoute.Size = new System.Drawing.Size(179, 17);
-          this.checkBoxTraceRoute.TabIndex = 6;
-          this.checkBoxTraceRoute.Text = "Trace route for each connection";
-          this.checkBoxTraceRoute.UseVisualStyleBackColor = true;
-          this.checkBoxTraceRoute.Visible = false;
-          this.checkBoxTraceRoute.CheckedChanged += new System.EventHandler(this.checkBoxTraceRoute_CheckedChanged);
           // 
           // panel2
           // 
@@ -1255,6 +1106,16 @@
           this.panel4.Name = "panel4";
           this.panel4.Size = new System.Drawing.Size(890, 732);
           this.panel4.TabIndex = 44;
+          // 
+          // buttonLoadKML
+          // 
+          this.buttonLoadKML.Location = new System.Drawing.Point(18, 19);
+          this.buttonLoadKML.Name = "buttonLoadKML";
+          this.buttonLoadKML.Size = new System.Drawing.Size(82, 23);
+          this.buttonLoadKML.TabIndex = 17;
+          this.buttonLoadKML.Text = "Load KML...";
+          this.buttonLoadKML.UseVisualStyleBackColor = true;
+          this.buttonLoadKML.Click += new System.EventHandler(this.button17_Click);
           // 
           // MainMap
           // 
@@ -1317,8 +1178,6 @@
           this.tableLayoutPanel2.PerformLayout();
           this.xPanderPanelLive.ResumeLayout(false);
           this.tableLayoutPanel3.ResumeLayout(false);
-          this.tableLayoutPanel3.PerformLayout();
-          ((System.ComponentModel.ISupportInitialize)(this.GridConnections)).EndInit();
           this.panel2.ResumeLayout(false);
           this.panel4.ResumeLayout(false);
           this.ResumeLayout(false);
@@ -1394,19 +1253,10 @@
       private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
       private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
       private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-      private System.Windows.Forms.RadioButton radioButtonNone;
-      private System.Windows.Forms.CheckBox checkBoxTcpIpSnap;
-      private System.Windows.Forms.DataGridView GridConnections;
-      private System.Windows.Forms.DataGridViewTextBoxColumn CountryName;
-      private System.Windows.Forms.DataGridViewTextBoxColumn ConnectionsCount;
-      private System.Windows.Forms.RadioButton radioButtonTransport;
-      private System.Windows.Forms.RadioButton radioButtonPerf;
-      private System.Windows.Forms.RadioButton radioButtonTcpIp;
       private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
       private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
-      private System.Windows.Forms.CheckBox checkBoxTraceRoute;
       private System.Windows.Forms.Button button2;
-      private System.Windows.Forms.Button button17;
+      private System.Windows.Forms.Button buttonLoadKML;
    }
 }
 

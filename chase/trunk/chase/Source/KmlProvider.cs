@@ -62,33 +62,22 @@ namespace Demo.WindowsForms.Source
 
             List<GMapMarker> markers = new List<GMapMarker>();
 
-            placemarks.ToList().ForEach((placemark) =>
-                {
+            placemarks.ToList().ForEach((placemark) =>{
                     var location = ParseCoordinate(placemark.Descendants(nx + "coordinates").First().Value);
 
                     GMapMarker marker;
 
                     if (placemark.Descendants(nx + "name").First().Value.Contains("Landing"))
-                    {
                         marker = new GMapMarkerGoogleGreen(location);
-                    }
                     else
-                    {
                         marker = new GMapMarkerGoogleRed(location);
-                    }
+
                     marker.ToolTipText = placemark.Descendants(nx + "description").First().Value;
                     marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-
-
-
                     markers.Add(marker);
                 });
 
-
             return markers;
-
-           
-
         }
     }
 }
