@@ -95,10 +95,14 @@
           this.label5 = new System.Windows.Forms.Label();
           this.xPanderPanelLive = new BSE.Windows.Forms.XPanderPanel();
           this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-          this.panel2 = new System.Windows.Forms.Panel();
-          this.panel4 = new System.Windows.Forms.Panel();
           this.buttonLoadKML = new System.Windows.Forms.Button();
+          this.buttonConnectGPS = new System.Windows.Forms.Button();
+          this.comboBoxCOMPorts = new System.Windows.Forms.ComboBox();
+          this.textBoxGPSData = new System.Windows.Forms.TextBox();
+          this.panel2 = new System.Windows.Forms.Panel();
           this.MainMap = new Demo.WindowsForms.Map();
+          this.panel4 = new System.Windows.Forms.Panel();
+          this.comboBoxGPSType = new System.Windows.Forms.ComboBox();
           this.groupBox3.SuspendLayout();
           ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
           this.groupBox5.SuspendLayout();
@@ -1063,49 +1067,36 @@
           // 
           // tableLayoutPanel3
           // 
-          this.tableLayoutPanel3.ColumnCount = 3;
+          this.tableLayoutPanel3.ColumnCount = 4;
           this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
-          this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.06977F));
+          this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+          this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 67F));
           this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
+          this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
           this.tableLayoutPanel3.Controls.Add(this.buttonLoadKML, 1, 5);
+          this.tableLayoutPanel3.Controls.Add(this.buttonConnectGPS, 2, 7);
+          this.tableLayoutPanel3.Controls.Add(this.comboBoxCOMPorts, 1, 7);
+          this.tableLayoutPanel3.Controls.Add(this.textBoxGPSData, 1, 8);
+          this.tableLayoutPanel3.Controls.Add(this.comboBoxGPSType, 1, 6);
           this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
           this.tableLayoutPanel3.Location = new System.Drawing.Point(1, 25);
           this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(2);
           this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-          this.tableLayoutPanel3.RowCount = 9;
+          this.tableLayoutPanel3.RowCount = 12;
           this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
           this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
           this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
           this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
           this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
           this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-          this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+          this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+          this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+          this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
           this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
           this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+          this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
           this.tableLayoutPanel3.Size = new System.Drawing.Size(226, 579);
           this.tableLayoutPanel3.TabIndex = 6;
-          // 
-          // panel2
-          // 
-          this.panel2.Controls.Add(this.MainMap);
-          this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-          this.panel2.Location = new System.Drawing.Point(0, 0);
-          this.panel2.Margin = new System.Windows.Forms.Padding(2);
-          this.panel2.Name = "panel2";
-          this.panel2.Size = new System.Drawing.Size(660, 732);
-          this.panel2.TabIndex = 41;
-          // 
-          // panel4
-          // 
-          this.panel4.Controls.Add(this.panel2);
-          this.panel4.Controls.Add(this.splitter1);
-          this.panel4.Controls.Add(this.panelMenu);
-          this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-          this.panel4.Location = new System.Drawing.Point(0, 0);
-          this.panel4.Margin = new System.Windows.Forms.Padding(2);
-          this.panel4.Name = "panel4";
-          this.panel4.Size = new System.Drawing.Size(890, 732);
-          this.panel4.TabIndex = 44;
           // 
           // buttonLoadKML
           // 
@@ -1116,6 +1107,44 @@
           this.buttonLoadKML.Text = "Load KML...";
           this.buttonLoadKML.UseVisualStyleBackColor = true;
           this.buttonLoadKML.Click += new System.EventHandler(this.button17_Click);
+          // 
+          // buttonConnectGPS
+          // 
+          this.buttonConnectGPS.Location = new System.Drawing.Point(147, 68);
+          this.buttonConnectGPS.Name = "buttonConnectGPS";
+          this.buttonConnectGPS.Size = new System.Drawing.Size(58, 19);
+          this.buttonConnectGPS.TabIndex = 19;
+          this.buttonConnectGPS.Text = "Connect";
+          this.buttonConnectGPS.UseVisualStyleBackColor = true;
+          this.buttonConnectGPS.Click += new System.EventHandler(this.buttonConnectGPS_Click);
+          // 
+          // comboBoxCOMPorts
+          // 
+          this.comboBoxCOMPorts.FormattingEnabled = true;
+          this.comboBoxCOMPorts.Location = new System.Drawing.Point(18, 68);
+          this.comboBoxCOMPorts.Name = "comboBoxCOMPorts";
+          this.comboBoxCOMPorts.Size = new System.Drawing.Size(121, 21);
+          this.comboBoxCOMPorts.TabIndex = 20;
+          // 
+          // textBoxGPSData
+          // 
+          this.tableLayoutPanel3.SetColumnSpan(this.textBoxGPSData, 2);
+          this.textBoxGPSData.Dock = System.Windows.Forms.DockStyle.Fill;
+          this.textBoxGPSData.Location = new System.Drawing.Point(18, 93);
+          this.textBoxGPSData.Multiline = true;
+          this.textBoxGPSData.Name = "textBoxGPSData";
+          this.textBoxGPSData.Size = new System.Drawing.Size(190, 463);
+          this.textBoxGPSData.TabIndex = 21;
+          // 
+          // panel2
+          // 
+          this.panel2.Controls.Add(this.MainMap);
+          this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+          this.panel2.Location = new System.Drawing.Point(0, 0);
+          this.panel2.Margin = new System.Windows.Forms.Padding(2);
+          this.panel2.Name = "panel2";
+          this.panel2.Size = new System.Drawing.Size(660, 732);
+          this.panel2.TabIndex = 41;
           // 
           // MainMap
           // 
@@ -1138,6 +1167,29 @@
           this.MainMap.Size = new System.Drawing.Size(660, 732);
           this.MainMap.TabIndex = 0;
           this.MainMap.Zoom = 0D;
+          // 
+          // panel4
+          // 
+          this.panel4.Controls.Add(this.panel2);
+          this.panel4.Controls.Add(this.splitter1);
+          this.panel4.Controls.Add(this.panelMenu);
+          this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+          this.panel4.Location = new System.Drawing.Point(0, 0);
+          this.panel4.Margin = new System.Windows.Forms.Padding(2);
+          this.panel4.Name = "panel4";
+          this.panel4.Size = new System.Drawing.Size(890, 732);
+          this.panel4.TabIndex = 44;
+          // 
+          // comboBoxGPSType
+          // 
+          this.comboBoxGPSType.FormattingEnabled = true;
+          this.comboBoxGPSType.Items.AddRange(new object[] {
+            "USB GPS",
+            "Arduino GPS"});
+          this.comboBoxGPSType.Location = new System.Drawing.Point(18, 48);
+          this.comboBoxGPSType.Name = "comboBoxGPSType";
+          this.comboBoxGPSType.Size = new System.Drawing.Size(121, 21);
+          this.comboBoxGPSType.TabIndex = 22;
           // 
           // MainForm
           // 
@@ -1178,6 +1230,7 @@
           this.tableLayoutPanel2.PerformLayout();
           this.xPanderPanelLive.ResumeLayout(false);
           this.tableLayoutPanel3.ResumeLayout(false);
+          this.tableLayoutPanel3.PerformLayout();
           this.panel2.ResumeLayout(false);
           this.panel4.ResumeLayout(false);
           this.ResumeLayout(false);
@@ -1257,6 +1310,10 @@
       private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
       private System.Windows.Forms.Button button2;
       private System.Windows.Forms.Button buttonLoadKML;
+      private System.Windows.Forms.Button buttonConnectGPS;
+      private System.Windows.Forms.ComboBox comboBoxCOMPorts;
+      private System.Windows.Forms.TextBox textBoxGPSData;
+      private System.Windows.Forms.ComboBox comboBoxGPSType;
    }
 }
 

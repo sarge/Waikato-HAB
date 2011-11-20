@@ -18,6 +18,7 @@ using GMap.NET.WindowsForms.Markers;
 using GMap.NET.WindowsForms.ToolTips;
 using GMap.NET.MapProviders;
 using Demo.WindowsForms.Source;
+using System.IO.Ports;
 
 namespace Demo.WindowsForms
 {
@@ -44,6 +45,8 @@ namespace Demo.WindowsForms
         bool isMouseDown = false;
         PointLatLng start;
         PointLatLng end;
+
+        GPSComDevice gpsComDevice;
 
         public MainForm()
         {
@@ -122,7 +125,7 @@ namespace Demo.WindowsForms
 
                 ToolStripManager.Renderer = new BSE.Windows.Forms.Office2007Renderer();
 
-               
+
                 IpCache.CacheLocation = MainMap.CacheLocation;
 
                 // perf
@@ -154,6 +157,10 @@ namespace Demo.WindowsForms
                 // map center
                 center = new GMapMarkerCross(MainMap.Position);
                 top.Markers.Add(center);
+
+                // com ports
+                comboBoxCOMPorts.Items.AddRange(SerialPort.GetPortNames());
+
 
                 //MainMap.VirtualSizeEnabled = true;
                 if (false)
@@ -741,9 +748,9 @@ namespace Demo.WindowsForms
 #endif
         }
 
-       
 
-        
+
+
 
         Color GetRandomColor()
         {
@@ -1672,7 +1679,7 @@ namespace Demo.WindowsForms
             }
         }
 
-       
+
 
         // export mobile gps log to gpx file
         private void buttonExportToGpx_Click(object sender, EventArgs e)
@@ -1794,6 +1801,75 @@ namespace Demo.WindowsForms
 
                 kml.GetMarkers().ForEach(m => objects.Markers.Add(m));
             }
+        }
+
+
+
+        private void buttonConnectGPS_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                if (comboBoxCOMPorts.SelectedItem == null)
+                {
+                    MessageBox.Show("Select a COM port to connect to");
+                    return;
+                }
+
+                if (gpsComDevice == null)
+                {
+                    gpsComDevice = new GPSComDevice();
+                    gpsComDevice.NewCoordinatesRecieved += new EventHandler<SerialDataArgs>(gpsComDevice_NewCoordinatesRecieved);
+                }
+
+                if (comboBoxGPSType.SelectedItem == null)
+                {
+                    MessageBox.Show("Select a GPS Type to connect to");
+                    return;
+                }
+                else if (comboBoxGPSType.SelectedItem.ToString() == "USB GPS")
+                {
+                    gpsComDevice.ConnectToSerial(comboBoxCOMPorts.SelectedItem.ToString());
+                }
+                else if (comboBoxGPSType.SelectedItem.ToString() == "Arduino GPS")
+                {
+                    gpsComDevice.ConnectArduinoToSerial(comboBoxCOMPorts.SelectedItem.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Connection error");
+            }
+        }
+
+        void gpsComDevice_NewCoordinatesRecieved(object sender, SerialDataArgs e)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new EventHandler<SerialDataArgs>(gpsComDevice_NewCoordinatesRecieved), sender, e);
+                return;
+            }
+
+            var delta = Math.Max(Math.Abs(MainMap.Position.Lat - e.Location.Lat),
+                Math.Abs(MainMap.Position.Lng - e.Location.Lng));
+
+            if (delta > 0.0001)
+            {
+                textBoxGPSData.AppendText("New chase position " + e.Location + Environment.NewLine);
+
+                this.MainMap.Position = e.Location;
+            }
+        }
+
+        void gpsComDevice_RawData(object sender, SerialDataArgs e)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new EventHandler<SerialDataArgs>(gpsComDevice_RawData), sender, e);
+                return;
+            }
+
+            textBoxGPSData.AppendText(e.RawData);
         }
     }
 }
